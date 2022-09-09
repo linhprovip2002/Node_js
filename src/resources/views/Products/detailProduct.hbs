@@ -1,0 +1,23 @@
+<mt-4>
+    <div class="row">
+        <div class="col-lg-3">
+            <a href="#"><button class="navbar__btn">
+                           Mua
+                        </button></a>
+        </div>
+        <div class="col-lg-9">
+            <h2>{{product.nameProduct}}</h2>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/{{product.videoID}}"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            <h4>
+                Loại sản phẩm <a href="/{{product.parent_id}}"><button class="navbar__btn">
+                            {{product.parent_id}}
+                        </button></a>
+            </h4>
+            <p>{{product.desciption}}</p>
+
+        </div>
+    </div>
+</mt-4>

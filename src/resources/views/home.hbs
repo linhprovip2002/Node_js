@@ -1,1 +1,23 @@
-<H1>homePage</H1>
+<div class="mt-4 container">
+    <div class="row">
+
+        {{#each Products}}
+        <div class="col-sm-6 col-lg-4">
+            <div class="card card-product-home">
+                <a href="/products/{{this.slug}}"> <div class="img-div-home"><img class="card-img-top img-home-product" src="{{this.imgage}}"
+                        alt="Card image cap"></div></a>
+
+                <div class="card-body">
+                    <a href="/products/{{this.slug}}">
+                        <h5 class="card-title">{{this.nameProduct}}</h5>
+                    </a>
+
+                    <p class="card-text">{{this.desciption}}</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+
+    </div>
+</div>

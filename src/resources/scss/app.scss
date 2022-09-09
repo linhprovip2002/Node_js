@@ -1,6 +1,33 @@
 @import 'variable';
 
-h1
+.container
 {
-    
+    margin: 0 calc((100% - 1800 ) / 2);
+
+}
+
+button {
+    text-align: center;
+    color: #fff;
+    background-color: gray;
+    padding: .8rem 2.5rem;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: var(--smooth);
+}
+button:hover {
+    background-color: var(--green-l);
+    transition: var(--smooth);
+}
+:root {
+    --green: #54B192;
+    --green-l: #a4cec0;
+    --gray: #3f3d56;
+    --smooth: all .3s ease-in;
+}
+
+.card-product-home
+{
+    margin-bottom: 9px;
 }
