@@ -3,9 +3,9 @@ const route = require('.');
 const router = express.Router();
   
    const productController =require('../app/controllers/productController');
-   router.use('/store',productController.store);
-      router.use('/create',productController.create);
-      router.use('/:slug',productController.show);
+      router.post('/store',productController.store);
+      router.get('/create',productController.create);
+      router.get('/:slug',productController.show);
 //    newsController.index
 
     

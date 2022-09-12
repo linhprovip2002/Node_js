@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 mongoose.plugin(slug);
 const Product = new Schema({
     
-    
+    // id:{type:String, maxLength:255},
     nameProduct: {type:String, maxLength:255, required : true},
     parent_id:{type:String, maxLength:255},
     desciption: {type:String, maxLength:600},

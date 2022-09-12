@@ -1,6 +1,13 @@
 const Product = require('../models/Product')
 const {mutipleMongooseToObject} = require('../../until/mongoose')
 class SiteController {
+    
+    //GET/search
+    search(req, res) {
+        res.send('Search page');
+    }
+
+
     //GET/
     index(req, res,next) {
 
@@ -25,10 +32,7 @@ class SiteController {
     }
 
     // show detail tin-tuc
-    //GET/search
-    search(req, res) {
-        res.send('Search page');
-    }
+    
 
 }
 
