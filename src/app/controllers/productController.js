@@ -17,7 +17,7 @@ class productController {
         const formData = req.body;
         formData.imgage =`https://img.youtube.com/vi/${req.body.videoID}/sddefault.jpg`;
          const product = new Product(formData);
-         product.save().then(()=>res.redirect('/')).catch(console.error())
+         product.save().then(()=>res.redirect('/me/products')).catch(console.error())
         
 
       }

@@ -1,7 +1,7 @@
-
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <div class="div mt-4 ml-4">
-    <h3>Sản phẩm của tôi</h3>
-    <a href="products/trash">Thùng rác</a>
+    <h3>Thùng rác</h3>
+    <a href="/me/products">Trở về</a>
   </div>
 
 
@@ -22,16 +22,15 @@
       <td>{{this.nameProduct}}</td>
       <td>{{this.desciption}}</td>
       <td>{{this.createdAt}}</td>
-      <td><a href="" data-toggle="modal" data-target="#delete-product-modal" data-id="{{this._id}}" class="px-2">Xóa</a>
-        <a href="/me/products/{{this._id}}/edit">Sửa</a>
+      <td><a href="" data-toggle="modal" data-target="#delete-product-modal" data-id="{{this._id}}" class="px-2">Xóa vĩnh viễn</a>
+        <a href="" class="btn-restore" data-id="{{this._id}}">Khôi phục</a>
       </td>
     </tr>
     {{else}}
     <tr>
       <td colspan="5" class="text-center">
-        Bạn chưa đăng sản phẩm nào
-        <button onclick="myFunction()">Đăng khóa học</button> 
-    
+        Danh sách sản phẩm  trống
+        <a href="/me/products">Danh sách khóa học</a>
         {{!-- dùng này để chuyển trang nếu dùng thẻ a thì nó sẽ dính rới route me/create --}}
       </td>
     </tr>
@@ -61,8 +60,22 @@
   </div>
 </div>
 {{!-- hidden form --}}
- <form method="POST" name="delete-product-form"></form>
+  <form method="POST" name="delete-product-form"></form>
+  <form method="POST" name="restore-product-form"></form>
 <script>
+   var btnStore = $('.btn-restore');
+   var restoreforms = document.forms['restore-product-form'];
+   btnStore.click(function (e)
+   {
+      e.preventDefault();
+      //console.log($(this).data('id'));
+      var productID = $(this).data('id');
+      restoreforms.action='/me/'+productID+'/restore?_method=PATCH';
+      restoreforms.submit();
+      
+   })
+
+   //xóa destroy
    var productID;
    var deleteform= document.forms['delete-product-form'];
     var btnDeletecourse = document.getElementById('btn-del-product')
@@ -76,14 +89,11 @@
     
      btnDeletecourse.onclick = function()
      {
-      deleteform.action='/me/'+productID+'?_method=DELETE';
+      deleteform.action='/me/'+productID+'/destroy?_method=DELETE';
       deleteform.submit();
      }
   });
- 
-function myFunction() {
-  location.replace("/products/create")
-}
+   
 
 
 </script>
