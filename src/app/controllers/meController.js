@@ -16,15 +16,39 @@ class meController {
         //     next(err);
 
         // })
-        //---------------------promise--------//
-        Product.find({}).then(Products => {
-            // Products = Products.map(Product=>Product.toObject()) //Tạo mảng mới để đẩy dữ liệu từ mongo
-            //doi
 
-            res.render('me/show', { Products: mutipleMongooseToObject(Products) })
-            // res.render('me/show')
-        })
-            .catch(next);
+
+        //asynchronous 
+        Promise.all([Product.find({}), Product.countDocumentsDeleted()])
+            .then(([Products, deleteProducts]) => {
+                res.render('me/show', {
+                    deleteProducts,
+                    Products: mutipleMongooseToObject(Products)
+                })
+            })
+            .catch()
+
+
+        //---------------------promise--------//
+        // Product.find({}).then(Products => {
+
+
+
+        //     // Products = Products.map(Product=>Product.toObject()) //Tạo mảng mới để đẩy dữ liệu từ mongo
+        //     //doi
+
+        //     res.render('me/show', { Products: mutipleMongooseToObject(Products) });
+        // })
+        //     .catch(next);
+
+
+
+        //get the number of deleted elements
+        // Product.countDocumentsDeleted()
+        //     .then((deleteProducts) => {
+        //         console.log(deleteProducts);
+        //     })
+        //     .catch(next);
     }
 
     //Get/me/products/:id/edit
@@ -54,15 +78,13 @@ class meController {
             .catch(next);
     }
     //[PATCH] /products/:id/restore
-    restore(req,res,next)
-    {
+    restore(req, res, next) {
         Product.restore({ _id: req.params.id })
             .then(() => res.redirect('back'))
             .catch(next)
     }
     //[DELETE] /me/id/destroy
-    destroy(req,res,next)
-    {
+    destroy(req, res, next) {
         Product.deleteOne({ _id: req.params.id })
             .then(() => res.redirect('back'))
             .catch(next)

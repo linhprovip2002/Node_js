@@ -1,18 +1,25 @@
-
-  <div class="div mt-4 ml-4">
-    <h3>Sản phẩm của tôi</h3>
-    <a href="products/trash">Thùng rác</a>
+<div class="div mt-4 ml-4">
+  <h3>Sản phẩm của tôi</h3>
+  <a href="products/trash">Thùng rác ({{deleteProducts}})</a>
+  <div class="mt-2">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+      <label class="form-check-label" for="defaultCheck1">
+        Chọn tất cả
+      </label>
+    </div>
   </div>
+</div>
 
 
 <table class="table">
   <thead class="thead-dark">
     <tr>
       <th scope="col">STT</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-      <th></th>
+      <th scope="col">Tên sản phẩm</th>
+      <th scope="col">Mô tả</th>
+      <th scope="col">Thời gian xóa</th>
+      <th scope="col">Chức năng</th>
     </tr>
   </thead>
   <tbody>
@@ -30,8 +37,8 @@
     <tr>
       <td colspan="5" class="text-center">
         Bạn chưa đăng sản phẩm nào
-        <button onclick="myFunction()">Đăng khóa học</button> 
-    
+        <button onclick="myFunction()">Đăng khóa học</button>
+
         {{!-- dùng này để chuyển trang nếu dùng thẻ a thì nó sẽ dính rới route me/create --}}
       </td>
     </tr>
@@ -55,35 +62,34 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary btn-danger" id="btn-del-product">Yes,Delete it</button>
-        <button type="button"  class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>
 </div>
 {{!-- hidden form --}}
- <form method="POST" name="delete-product-form"></form>
+<form method="POST" name="delete-product-form"></form>
 <script>
-   var productID;
-   var deleteform= document.forms['delete-product-form'];
-    var btnDeletecourse = document.getElementById('btn-del-product')
+  var productID;
+  var deleteform = document.forms['delete-product-form'];
+  var btnDeletecourse = document.getElementById('btn-del-product')
   document.addEventListener('DOMContentLoaded', function () {
     $('#delete-product-modal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget)
       productID = button.data('id');
 
     })
-   
-    
-     btnDeletecourse.onclick = function()
-     {
-      deleteform.action='/me/'+productID+'?_method=DELETE';
+
+
+    btnDeletecourse.onclick = function () {
+      deleteform.action = '/me/' + productID + '?_method=DELETE';
       deleteform.submit();
-     }
+    }
   });
- 
-function myFunction() {
-  location.replace("/products/create")
-}
+
+  function myFunction() {
+    location.replace("/products/create")
+  }
 
 
 </script>
