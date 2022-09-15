@@ -9,7 +9,7 @@ const db = require('./config/db');
 db.connect();
 
 var morgan = require('morgan');
-const port = 1280;
+const port = 8756;
 const route = require('./routes');
 
 
