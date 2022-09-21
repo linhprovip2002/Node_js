@@ -15,7 +15,7 @@ const Product = new Schema({
     slug :{type:String, maxLength:255},
     videoID:{type:String, maxLength:255},
     slug: { type: String, slug: 'nameProduct' , unique:true }
-  },{timestamps: true});
+  },{timestamps: true},this.collection);
 
   //add plugins
   mongoose.plugin(slug);

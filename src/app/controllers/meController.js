@@ -89,6 +89,27 @@ class meController {
             .then(() => res.redirect('back'))
             .catch(next)
     }
+    //[POST] /products/handle-form-action
+    handleFormAction(req, res, next) {
 
+        
+        switch (req.body.action) {
+            case 'delete':
+                Product.delete({ _id: {$in :req.body.productID} })
+                    .then(() => res.redirect('/me/products'))
+                    .catch(next)
+                break;
+            
+            default: req.json({ message: 'Action invalid!' });
+        }
+
+    }
+    //
+    restoreAll(req,res,next)
+    {
+        Product.restore({ _id: {$in :req.body.productID} })
+        .then(()=>res.redirect('back'))
+        .catch(next)
+    }
 }
 module.exports = new meController;

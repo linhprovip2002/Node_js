@@ -4,7 +4,7 @@
   "description": "Công nghệ web_bài tập lớn",
   "main": "src/index.js",
   "scripts": {
-    "start": "node  src/index.js",
+    "start": "nodemon --inspect src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "node-sass --watch src/resources/scss/ -o src/public/css/"
   },
@@ -25,7 +25,7 @@
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
     "method-override": "^3.0.0",
-    "mongoose": "^6.6.0",
+    "mongoose": "^6.6.1",
     "mongoose-delete": "^0.5.4",
     "mongoose-slug-generator": "^1.0.4",
     "morgan": "^1.10.0",

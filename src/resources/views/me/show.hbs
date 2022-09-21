@@ -1,95 +1,174 @@
-<div class="div mt-4 ml-4">
+
+<form class="form" name="container-form" method="POST" action="products/handle-form-action" >
+<div class="mt-4 mr-4" style=" margin: 10px 46px;">
   <h3>Sản phẩm của tôi</h3>
   <a href="products/trash">Thùng rác ({{deleteProducts}})</a>
-  <div class="mt-2">
+  <div class="mt-2 d-flex align-items-center">
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-      <label class="form-check-label" for="defaultCheck1">
+      <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+      <label class="form-check-label" for="checkbox-all">
         Chọn tất cả
       </label>
     </div>
+    <select class="form-control me-form-checkbox" name="action" required >
+      <option>--Hành động--</option>
+      <option value="delete">Xóa</option>
+
+    </select>
+    <button class="btn  btn-submit-multiple btn-sm disabled"  >Thực hiện</button>
   </div>
 </div>
 
 
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">STT</th>
-      <th scope="col">Tên sản phẩm</th>
-      <th scope="col">Mô tả</th>
-      <th scope="col">Thời gian xóa</th>
-      <th scope="col">Chức năng</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each Products}}
-    <tr>
-      <th scope="row">{{sum @index 1}}</th>
-      <td>{{this.nameProduct}}</td>
-      <td>{{this.desciption}}</td>
-      <td>{{this.createdAt}}</td>
-      <td><a href="" data-toggle="modal" data-target="#delete-product-modal" data-id="{{this._id}}" class="px-2">Xóa</a>
-        <a href="/me/products/{{this._id}}/edit">Sửa</a>
-      </td>
-    </tr>
-    {{else}}
-    <tr>
-      <td colspan="5" class="text-center">
-        Bạn chưa đăng sản phẩm nào
-        <button onclick="myFunction()">Đăng khóa học</button>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th style="width: 30px ;"></th>
+        <th scope="col">STT</th>
+        <th scope="col">Tên sản phẩm</th>
+        <th scope="col">Mô tả</th>
+        <th scope="col">Thời gian xóa</th>
+        <th scope="col">Chức năng</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each Products}}
+      <tr>
+        <td style="width: 30px ;">
+          <div class="form-check">
+           
+            <input class="form-check-input messageCheckbox" type="checkbox" value="{{this._id}}" name="productID[]" >
 
-        {{!-- dùng này để chuyển trang nếu dùng thẻ a thì nó sẽ dính rới route me/create --}}
-      </td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
+          </div>
+        </td>
+        <th scope="row" style="width: 30px ;">{{sum @index 1}}</th>
+        <td>{{this.nameProduct}}</td>
+        <td>{{this.desciption}}</td>
+        <td>{{this.createdAt}}</td>
+        <td><a href="" data-toggle="modal" data-target="#delete-product-modal" data-id="{{this._id}}"
+            class="px-2">Xóa</a>
+          <a href="/me/products/{{this._id}}/edit">Sửa</a>
+        </td>
+      </tr>
+      {{else}}
+      <tr>
+        <td colspan="5" class="text-center">
+          Bạn chưa đăng sản phẩm nào
+          <button onclick="myFunction()">Đăng khóa học</button>
 
+          {{!-- dùng này để chuyển trang nếu dùng thẻ a thì nó sẽ dính rới route me/create --}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</form>
 
-{{!-- confirm delete product --}}
-<div class="modal" id="delete-product-modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Delete Product</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Do you want to be sure to delete the product?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-danger" id="btn-del-product">Yes,Delete it</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+  {{!-- confirm delete product --}}
+  <div class="modal" id="delete-product-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete Product</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Do you want to be sure to delete the product?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary btn-danger" id="btn-del-product">Yes,Delete it</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-{{!-- hidden form --}}
-<form method="POST" name="delete-product-form"></form>
-<script>
-  var productID;
-  var deleteform = document.forms['delete-product-form'];
-  var btnDeletecourse = document.getElementById('btn-del-product')
-  document.addEventListener('DOMContentLoaded', function () {
-    $('#delete-product-modal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget)
-      productID = button.data('id');
+  {{!-- hidden form --}}
+  <form method="POST" name="delete-product-form"></form>
+  <script>
+    var productID;
+    var deleteform = document.forms['delete-product-form'];
+    var btnDeletecourse = document.getElementById('btn-del-product');
+    var containerform = document.forms['container-form'];
+    document.addEventListener('DOMContentLoaded', function () {
+      $('#delete-product-modal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        productID = button.data('id');
 
-    })
+      })
 
 
-    btnDeletecourse.onclick = function () {
-      deleteform.action = '/me/' + productID + '?_method=DELETE';
-      deleteform.submit();
+      btnDeletecourse.onclick = function () {
+        deleteform.action = '/me/' + productID + '?_method=DELETE';
+        deleteform.submit();
+      }
+    });
+
+    function myFunction() {
+      location.replace("/products/create");
     }
-  });
+    //check box all
+    //check boxx all click
+    var checkboxAll = $('#checkbox-all');
 
-  function myFunction() {
-    location.replace("/products/create")
-  }
+    //check box items
+    var checkboxItem = $('input[name="productID[]"]');
+    //console.log(checkboxItem);
+
+    checkboxAll.change(function () {
+      var IsChecked = $(this).prop('checked');
+
+      /*if(IsChecked)
+      {
+         checkboxItem.prop('checked',true);
+      }
+      else
+      {
+       checkboxItem.prop('checked',false);
+      }*/
+      checkboxItem.prop('checked', IsChecked);
+      renderbtnSubmit();
+    });
+    //checkboxitem change
+    checkboxItem.change(function () {
+      var isCheck = checkboxItem.length === $('input[name="productID[]"]:checked').length;
+      //console.log(checkboxItem.length);
+      //console.log($('input[name="productID[]"]:checked').length);
+      //console.log(isCheck);
+      checkboxAll.prop('checked', isCheck);
+      renderbtnSubmit();
+    });
+
+    
 
 
-</script>
+    // enable button thuc hien or disable
+    var checkAllSubmitBtn = $('.btn-submit-multiple');
+    function renderbtnSubmit() {
+      if ($('input[name="productID[]"]:checked').length > 0) {
+        checkAllSubmitBtn.removeClass('disabled')
+      } else { checkAllSubmitBtn.addClass('disabled') }
+    }
+    /*
+     checkAllSubmitBtn.click(function(e)
+     {
+         e.preventDefault();
+         var issubmitable = !$(this).hasClass('disabled');
+        if(issubmitable)
+
+        {
+          containerform.submit();
+        }
+     })
+     */
+     checkAllSubmitBtn.on('submit',function(e)
+     {
+         var issubmitable = !$(this).hasClass('disabled');
+         if(!issubmitable)
+         {
+          e.preventDefault();
+         }
+     })
+      
+  </script>

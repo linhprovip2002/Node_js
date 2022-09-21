@@ -9,8 +9,14 @@ const router = express.Router();
       router.get('/products/:id/restore',meController.restore)
       
       router.get('/products/:id/edit',meController.edit)
+      
+      router.patch('/products/handle-form-action',meController.restoreAll)
+
+      router.post('/products/handle-form-action',meController.handleFormAction)
 
       router.put('/:id',meController.update)
+
+       
       
       router.get('/products/trash',meController.recycle)
 

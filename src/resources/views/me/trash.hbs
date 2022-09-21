@@ -1,24 +1,35 @@
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<div class="div mt-4 ml-4">
+{{!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> --}}
+<form class="form" name="container-form" method="POST" action="/me/products/handle-form-action?_method=PATCH">
+<div class="mt-4 mr-4" style=" margin: 10px 46px;">
   <h3>Thùng rác</h3>
 
   <a href="/me/products" style="display: inline-block;">Trở về</a>
-  <div class="mt-2">
+
+    <div class="mt-2 d-flex align-items-center">
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-      <label class="form-check-label" for="defaultCheck1">
+      <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+      <label class="form-check-label" for="checkbox-all">
         Chọn tất cả
       </label>
     </div>
-  </div>
+    <select class="form-control me-form-checkbox" >
+      <option>--Hành động--</option>
+      <option value="restore">Restore all</option>
 
+    </select>
+    <button class="btn  btn-submit-multiple btn-sm disabled"  >Thực hiện</button>
+ 
 
 </div>
+</div>
+
+
 
 
 <table class="table">
   <thead class="thead-dark">
     <tr>
+      <th style="width: 30px ;"></th>
       <th scope="col">STT</th>
       <th scope="col">Tên sản phẩm</th>
       <th scope="col">Mô tả</th>
@@ -29,11 +40,18 @@
   <tbody>
     {{#each Products}}
     <tr>
+      <td style="width: 30px ;">
+          <div class="form-check">
+           
+            <input class="form-check-input messageCheckbox" type="checkbox" value="{{this._id}}" name="productID[]" >
+
+          </div>
+        </td>
       <th scope="row">{{sum @index 1}}</th>
       <td>{{this.nameProduct}}</td>
       <td>{{this.desciption}}</td>
       <td>{{this.deletedAt}}</td>
-      <td><a href="" data-toggle="modal" data-target="#delete-product-modal" data-id="{{this._id}}" class="px-2">Xóa
+      <td><a href="" data-toggle="modal" data-target="#delete-product-modal" data-id=="{{this._id}}" class="px-2">Xóa
           vĩnh viễn</a>
         <a href="" class="btn-restore" data-id="{{this._id}}">Khôi phục</a>
       </td>
@@ -49,7 +67,7 @@
     {{/each}}
   </tbody>
 </table>
-
+ </form>
 
 {{!-- confirm delete product --}}
 <div class="modal" id="delete-product-modal" tabindex="-1" role="dialog">
@@ -73,7 +91,11 @@
 </div>
 {{!-- hidden form --}}
 <form method="POST" name="delete-product-form"></form>
-<form method="POST" name="restore-product-form"></form>
+<form method="POST" name="restore-product-form"></form> 
+
+
+
+{{!-- Script --}}
 <script>
   var btnStore = $('.btn-restore');
   var restoreforms = document.forms['restore-product-form'];
@@ -89,20 +111,67 @@
   //xóa destroy
   var productID;
   var deleteform = document.forms['delete-product-form'];
-  var btnDeletecourse = document.getElementById('btn-del-product')
+  var btnDeletecourse = document.getElementById('btn-del-product');
+  var containerform = document.forms['container-form'];
   document.addEventListener('DOMContentLoaded', function () {
     $('#delete-product-modal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget)
       productID = button.data('id');
 
     })
-
+    
+    
 
     btnDeletecourse.onclick = function () {
       deleteform.action = '/me/' + productID + '/destroy?_method=DELETE';
       deleteform.submit();
     }
   });
+  //choose all check box
+
+  var checkboxAll = $('#checkbox-all');
+  //console.log(checkboxAll);
+  var checkboxItem = $('input[name="productID[]"]');
+
+  
+  checkboxAll.change(function()
+  {
+      var ischeck = $(this).prop('checked');
+      
+      checkboxItem.prop('checked',ischeck);
+      renderbtnSubmit();
+  })
+   
+
+
+  checkboxItem.change(function()
+  {   
+     var isCheck =checkboxItem.length === ( $('input[name="productID[]"]:checked').length);
+     
+    checkboxAll.prop('checked',isCheck);
+    renderbtnSubmit();
+  })
+ 
+ 
+  var checkAllSubmitBtn = $('.btn-submit-multiple');
+
+    function renderbtnSubmit() {
+      if ($('input[name="productID[]"]:checked').length > 0) {
+        checkAllSubmitBtn.removeClass('disabled')
+      } else { checkAllSubmitBtn.addClass('disabled') }
+    }
+   checkAllSubmitBtn.on('submit',function(e)
+     {
+         var issubmitable = !$(this).hasClass('disabled');
+         if(!issubmitable)
+         {
+          e.preventDefault();
+         }
+     })
+    checkAllSubmitBtn.onclick('submit',function(e)
+    {
+     
+    })
 
 
 
